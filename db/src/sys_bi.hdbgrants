@@ -1,0 +1,18 @@
+{
+	"CROSS_SCHEMA_SYS_BI":{
+		"object_owner":{
+			"schema_privileges":[
+				{ "reference":"_SYS_BI",
+				  "privileges_with_grant_option":["SELECT"]
+				}
+			]
+		},
+		"application_user":{
+			"schema_privileges":[
+				{ "reference":"_SYS_BI",
+				  "privileges":["SELECT"]
+				}
+			]
+		}
+	}
+}

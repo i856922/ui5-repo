@@ -1,0 +1,218 @@
+namespace chickenwingdemo.db;
+
+context tables {
+	/*
+	* DataTypeDefinition
+	*/
+	type NameT:String(20);
+	type PhoneT:String(15);
+	type EmailT:String(30);
+	type CityT:String(20);
+	type CountryT:String(25);
+	type CodeT:String(3);
+	type FlightT:String(6);
+	type PriceT:Decimal(12,2);
+	type ModelT:String(10);
+	type SeatT:String(4);
+	/*
+	* Structuredefinition
+	* technicalstructuretobeusedinallentities
+	* tostorelastchangedtimestampandlastchangedbyuser
+	*/
+	type ChangeT{
+		USER: String(20);//ChangedbyUser
+		TIMESTAMP: UTCTimestamp;
+	};
+	entity Airport{
+		key CODE:String(3);//AirportIATACode
+		NAME: String(50);//AirportName
+		CITY: CityT;//AirportCity
+		COUNTRY: CountryT default'USA';//AirportCountry
+		TIMEZONE: String(3);//AirportTimeZone
+		LATITUDE: Decimal(12,6) not null;//Coordinates:Latitude
+		LONGITUDE: Decimal(12,6) not null;//Coordinates:Longitude
+		LOCATION: /*SpatialData*/ hana.ST_POINT(4326) = new ST_POINT('POINT('||LONGITUDE||''||LATITUDE||')',4326);//Geo Coordinates:Point4326
+		CHANGE: ChangeT;//TechnicalColumns
+	}
+	technical configuration{
+		column store;//ColumnTable
+		auto merge;//Enableautomerge
+		unload priority 5;//Standardsettings
+		group type app group subtype ChickenWings group name master;
+	};
+	//PlaneDetails
+	entity Plane
+	{
+		key REGNO: Integer;//RegistrationNumber
+		MODEL: String(10);//ModelName
+		MANUFACTURER: String(20);//Manufacturer
+		TYPE: String(20);//TypeofAircraft
+		YEAR: Integer;//YearofManufacture
+		REGDATE: LocalDate;//RegistrationDate
+		MAXSEAT: Integer;//MaximumSeatingCapacity
+		ECOSEAT: Integer;//NoofEconomyClassSeats
+		BUSSEAT: Integer;//NoofBusinessClassSeats
+		FIRSEAT: Integer;//NoofFirstClassSeats
+		CHANGE: ChangeT;//LastChangeTimestampandUser
+	}
+	technical configuration{
+		column store;//ColumnTable
+		auto merge;//Enableautomerge
+		unload priority 5;//Standardsettings
+		group type app group subtype ChickenWings group name master;
+	};
+	// CrewDetails
+	entity Crew
+	{
+		key CREWID:Integer;//CustomerID
+		FNAME: NameT;//FirstName
+		LNAME: NameT;//LastName
+		MOBILE: PhoneT;//Mobile/CellNumber
+		EMAIL: EmailT;//Email
+		COUNTRY: CountryT;//CountryofResidence
+		ROLE: String(20);//Job/RoleofCrew
+		CHANGE: ChangeT;//LastChangeTimestampandUser
+	}
+	technical configuration{
+		column store;//ColumnTable
+		auto merge;//Enableautomerge
+		unload priority 5;//Standardsettings
+		group type app group subtype ChickenWings group name master;
+	};
+	//CustomerDetails
+	entity Customer
+	{
+		key CUSTID:Integer;//CustomerID
+		FNAME:NameT;//FirstName
+		LNAME:NameT;//LastName
+		MOBILE:PhoneT;//Mobile/CellNumber
+		EMAIL:EmailT;//Email
+		COUNTRY:CountryT;//CountryofResidence
+		FLYERID:String(20);//FrequentFlyerID
+		CHANGE:ChangeT;//LastChangeTimestampandUser
+	}
+	technical configuration{
+		column store;//ColumnTable
+		auto merge;//Enableautomerge
+		unload priority 5;//Standardsettings
+		group type app group subtype ChickenWings group name master;
+	};
+	//SeatDetails
+	entity Seat
+	{
+		key MODEL:ModelT;//PlaneModel
+		key SEAT:SeatT;//SeatNumber
+		CLASS:String(10);//ClassofSeat:Economy,Business
+		STYPE:String(15);//TypeofSeating:Window/Isle
+		CHANGE:ChangeT;//LastChangeTimestampandUser
+	}
+	technical configuration{
+		column store;//ColumnTable
+		auto merge;//Enableautomerge
+		unload priority 5;//Standardsettings
+		group type app group subtype ChickenWings group name master;
+	};
+	//PriceCalendar
+	entity PriceCalendar
+	{
+		key CDATE:LocalDate;//Date
+		RATE:String(10);//StandardorPeakRateforPricing
+		SEASON:String(20);//SeasonusedforPricing
+		CHANGE:ChangeT;//LastChangeTimestampandUser
+	}
+	technical configuration{
+		column store;//ColumnTable
+		auto merge;//Enableautomerge
+		unload priority 5;//Standardsettings
+		group type app group subtype ChickenWings group name master;
+	};
+	//ConnectionDetails
+	entity Connection
+	{
+		key FLIGHT:FlightT;//FlightNumber
+		FROMAP:CodeT;//OriginAirport
+		TOAP:CodeT;//DestinationAirport
+		DEPT:LocalTime;//ScheduledDepartureTime
+		ARRT:LocalTime;//ScheduledArrivalTime
+		SSTARTD:LocalDate;//ServiceStartDate
+		SENDD:LocalDate;//ServiceEndDate
+		ESPRICE:PriceT;//EconomyClassStandardPrice
+		EPPRICE:PriceT;//EconomyClassPeakPrice
+		BSPRICE:PriceT;//BusinessClassStandardPrice
+		BPPRICE:PriceT;//BusinessClassPeakPrice
+		FSPRICE:PriceT;//FirstClassStandardPrice
+		FPPRICE:PriceT;//FirstClassPeakPrice
+		MILES:Integer;//DistanceinMiles
+		CHANGE:ChangeT;//LastChangeTimestampandUser
+		// Associations
+		_FromAirport:association[*,0..1] to Airport on _FromAirport.CODE=FROMAP;
+		_ToAirport:association[*,0..1] to Airport	on _ToAirport.CODE=TOAP;
+	}
+	technical configuration{
+		column store;//ColumnTable
+		auto merge;//Enableautomerge
+		unload priority 5;//Standardsettings
+		group type app group subtype ChickenWings group name master;
+	};
+	//FlightDetails
+	entity Flight
+	{
+		key FLIGHT:FlightT;//FlightNumber
+		key FDATE:LocalDate;//FlightDate
+		PLANE:Integer;//PlaneRegNo
+		PILOT1:Integer;//Pilot
+		PILOT2:Integer;//Co-Pilot
+		CREW1:Integer;//Crew1
+		CREW2:Integer;//Crew2
+		CREW3:Integer;//Crew3
+		DEPT:LocalTime;//ActualDepartureTime
+		ARRT:LocalTime;//ActualArrivalTime
+		STATUS:String(10);//FlightStatus
+		CHANGE:ChangeT;//LastChangeTimestampandUser
+		// Associations
+		_Connection:association[*,0..1] to Connection on _Connection.FLIGHT=FLIGHT;
+		_Plane:association[*,0..1] to Plane on _Plane.REGNO=PLANE;
+		_Pilot1:association[*,0..1] to Crew on _Pilot1.CREWID=PILOT1;
+		_Pilot2:association[*,0..1] to Crew on _Pilot2.CREWID=PILOT2;
+		_Crew1:association[*,0..1] to Crew on _Crew1.CREWID=CREW1;
+		_Crew2:association[*,0..1] to Crew on _Crew2.CREWID=CREW2;
+		_Crew3:association[*,0..1] to Crew on _Crew3.CREWID=CREW3;
+	}
+	
+	technical configuration{
+		column store;//ColumnTable
+		auto merge;//Enableautomerge
+		unload priority 5;//Standardsettings
+		group type app group subtype ChickenWings group name master;
+	};
+	//BookingDetails
+	entity Booking
+	{
+		key FLIGHT:FlightT;//FlightNumber
+		key FDATE:LocalDate;//FlightDate
+		key MODEL:ModelT;//PlaneModel
+		key SEAT:ModelT;//SeatNumber
+		CUSTID:Integer;//CustomerID
+		STDPRICE:PriceT;//BasePrice
+		BOOKPRICE:PriceT;//BookPrice
+		FEES:PriceT;//Surcharges/Fees
+		DISCOUNT:PriceT;//Discount
+		TAX :PriceT;//Tax
+		TOTAL:PriceT;//TotalAmountCharged
+		PAYMENT:String(15);//ModeofPaymentCREDIT,CASH,POINTS
+		STATUS:String(10);//BookingStatusHold/Confirmed/Available
+		PASSENGER:String(20);//NameofthePassenger
+		CHECKIN:String(1);//Check-inStatus
+		CHANGE:ChangeT;//LastChangeTimestampandUser
+		// Associations
+		_Flight:association[*,0..1] to Flight{FLIGHT,FDATE};
+		_Seat:association[*,0..1] to Seat {MODEL,SEAT};
+		_Customer:association[*,0..1] to Customer{CUSTID};
+	}
+	technical configuration{
+		column store;//ColumnTable
+		auto merge;//Enableautomerge
+		unload priority 5;//Standardsettings
+		group type app group subtype ChickenWings group name transaction;
+	};
+};

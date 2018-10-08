@@ -1,0 +1,54 @@
+ID: chickenwingdemo
+_schema-version: '2.0'
+version: 0.0.1
+
+modules:
+ - name: db1
+   type: hdb
+   path: db1
+   requires:
+    - name: hdi_db1
+      properties:
+        TARGET_CONTAINER: ~{hdi-container-name}
+
+
+
+    - name: CROSS_SCHEMA_SYS_BI
+      group: SERVICE_REPLACEMENTS
+
+      properties:
+        key: ServiceName_1
+        service: ~{the-service-name}
+                          
+
+
+
+    - name: CHICKEN_WINGS
+      group: SERVICE_REPLACEMENTS
+
+      properties:
+        key: ServiceName_2
+        service: ~{the-service-name}
+                          
+
+
+resources:
+ - name: hdi_db
+   parameters:
+      config:
+         schema: chickenwingID
+   properties:
+      hdi-container-name: ${service-name}
+   type: com.sap.xs.hdi-container
+
+ - name: CROSS_SCHEMA_SYS_BI
+   properties:
+      the-service-name: ${service-name}
+   type: org.cloudfoundry.existing-service
+
+
+ - name: CHICKEN_WINGS
+   properties:
+      the-service-name: ${service-name}
+   type: org.cloudfoundry.existing-service
+

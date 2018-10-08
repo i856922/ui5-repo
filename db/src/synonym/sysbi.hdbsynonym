@@ -1,0 +1,9 @@
+{
+  "chickenwingdemo.db.synonym::time": {
+    "target": {
+      "object": "M_TIME_DIMENSION",
+      "schema": "_SYS_BI",
+      "database": "HXE"
+    }
+  }
+}

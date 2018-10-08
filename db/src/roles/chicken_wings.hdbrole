@@ -1,0 +1,14 @@
+{
+	"role":{
+		"name": "chickenwingdemo.db.roles::chicken_wings",
+		"schema_privileges": [{
+		   "privileges": ["SELECT METADATA",
+		    			  "SELECT CDS METADATA",
+		    			  "SELECT", "UNMASKED"
+		    			  
+		   ]
+		}]
+		
+
+      }
+}

@@ -1,0 +1,65 @@
+{
+  "chickenwingdemo.db.synonym::AIRPORT": {
+    "target": {
+      "object": "AIRPORT",
+      "schema": "CHICKEN_WINGS",
+      "database": "HXE"
+    }
+  },
+  "chickenwingdemo.db.synonym::BOOKING": {
+    "target": {
+      "object": "BOOKING",
+      "schema": "CHICKEN_WINGS",
+      "database": "HXE"
+    }
+  },
+  "chickenwingdemo.db.synonym::CONNECTION": {
+    "target": {
+      "object": "CONNECTION",
+      "schema": "CHICKEN_WINGS",
+      "database": "HXE"
+    }
+  },
+  "chickenwingdemo.db.synonym::CREW": {
+    "target": {
+      "object": "CREW",
+      "schema": "CHICKEN_WINGS",
+      "database": "HXE"
+    }
+  },
+  "chickenwingdemo.db.synonym::CUSTOMER": {
+    "target": {
+      "object": "CUSTOMER",
+      "schema": "CHICKEN_WINGS",
+      "database": "HXE"
+    }
+  },
+  "chickenwingdemo.db.synonym::FLIGHT": {
+    "target": {
+      "object": "FLIGHT",
+      "schema": "CHICKEN_WINGS",
+      "database": "HXE"
+    }
+  },
+  "chickenwingdemo.db.synonym::PLANE": {
+    "target": {
+      "object": "PLANE",
+      "schema": "CHICKEN_WINGS",
+      "database": "HXE"
+    }
+  },
+  "chickenwingdemo.db.synonym::PRICE_CALENDAR": {
+    "target": {
+      "object": "PRICE_CALENDAR",
+      "schema": "CHICKEN_WINGS",
+      "database": "HXE"
+    }
+  },
+  "chickenwingdemo.db.synonym::SEATs": {
+    "target": {
+      "object": "SEAT",
+      "schema": "CHICKEN_WINGS",
+      "database": "HXE"
+    }
+  }
+}
