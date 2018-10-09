@@ -1,5 +1,0 @@
-STRUCTURED PRIVILEGE 
-    "chickenwingdemo.db.privileges::AIRPORT_VIEW_PRIV"
-    FOR SELECT ON 
-    "chickenwingdemo.db.models::CV_AIRPORT"
-    WHERE 1=1

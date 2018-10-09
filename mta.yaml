@@ -1,13 +1,13 @@
 ID: chickenwingdemo
 _schema-version: '2.0'
-version: 0.0.1
+version: 0.0.2
 
 modules:
- - name: db
+ - name: dbchicken
    type: hdb
-   path: db
+   path: dbchicken
    requires:
-    - name: hdi_db
+    - name: hdi_dbchicken
       properties:
         TARGET_CONTAINER: ~{hdi-container-name}
 
@@ -31,8 +31,8 @@ modules:
    type: nodejs
    path: project
    requires:
-    - name: db
-    - name: hdi_db
+    - name: dbchicken
+    - name: hdi_dbchicken
    provides:
     - name: project_api
       properties:
@@ -49,7 +49,7 @@ modules:
        url: ~{url}
         
 resources:
- - name: hdi_db
+ - name: hdi_dbchicken
    parameters:
       config:
          schema: chickenwingID
