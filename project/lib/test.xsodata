@@ -1,0 +1,3 @@
+service {
+  "chickenwingdemo.db.models::CV_AIRPORT" as "test";
+}

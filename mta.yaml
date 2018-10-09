@@ -3,15 +3,13 @@ _schema-version: '2.0'
 version: 0.0.1
 
 modules:
- - name: db1
+ - name: db
    type: hdb
-   path: db1
+   path: db
    requires:
-    - name: hdi_db1
+    - name: hdi_db
       properties:
         TARGET_CONTAINER: ~{hdi-container-name}
-
-
 
     - name: CROSS_SCHEMA_SYS_BI
       group: SERVICE_REPLACEMENTS
@@ -21,8 +19,6 @@ modules:
         service: ~{the-service-name}
                           
 
-
-
     - name: CHICKEN_WINGS
       group: SERVICE_REPLACEMENTS
 
@@ -31,7 +27,27 @@ modules:
         service: ~{the-service-name}
                           
 
+ - name: project
+   type: nodejs
+   path: project
+   requires:
+    - name: db
+    - name: hdi_db
+   provides:
+    - name: project_api
+      properties:
+         url: ${default-url}
 
+ - name: projectui5
+   type: html5
+   path: projectui5
+   requires:
+    - name: project_api
+      group: destinations
+      properties:
+       name: project_be
+       url: ~{url}
+        
 resources:
  - name: hdi_db
    parameters:
