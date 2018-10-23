@@ -46,15 +46,6 @@
     </input>
   </calculationView>
 </calculationViews>
-<inlineHierarchy xsi:type="Dimension:LeveledHierarchy" id="Geography" aggregateAllNodes="true" orphanedNodesHandling="ROOT_NODES" rootNodeVisibility="ADD_ROOT_NODE" withRootNode="true" nodeStyle="LEVEL_NAME_ENFORCED" cacheEnabled="true" cycleHandling="BREAKUP" emptyValueIsNull="true">
-  <descriptions defaultDescription="Geography"/>
-  <unassignedMemberProperties mode="FALSE"/>
-  <levels>
-    <level levelAttribute="COUNTRY" levelType="MDLEVEL_TYPE_REGULAR" order="1" orderAttribute="COUNTRY" sortDirection="ASC"/>
-    <level levelAttribute="CITY" levelType="MDLEVEL_TYPE_REGULAR" order="2" orderAttribute="CITY" sortDirection="ASC"/>
-    <level levelAttribute="CODE" levelType="MDLEVEL_TYPE_REGULAR" order="3" orderAttribute="CODE" sortDirection="ASC"/>
-  </levels>
-</inlineHierarchy>
 <logicalModel id="Projection_1">
   <attributes>
     <attribute id="CODE" order="1" displayAttribute="false" attributeHierarchyActive="false">
@@ -86,13 +77,7 @@
       <keyMapping columnObjectName="Projection_1" columnName="LONGITUDE"/>
     </attribute>
   </attributes>
-  <calculatedAttributes>
-    <calculatedAttribute id="LOCATION" order="8" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
-      <keyCalculation datatype="ST_POINT" expressionLanguage="SQL">
-        <formula>ST_POINT('POINT('||&quot;LONGITUDE&quot;||''||&quot;LATITUDE&quot;||')',4326)</formula>
-      </keyCalculation>
-    </calculatedAttribute>
-  </calculatedAttributes>
+  <calculatedAttributes/>
   <baseMeasures/>
   <calculatedMeasures/>
   <restrictedMeasures/>

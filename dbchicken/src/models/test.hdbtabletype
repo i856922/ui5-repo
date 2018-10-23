@@ -1,0 +1,1 @@
+type "test" as object("chickenwingdemo.db.synonym::AIRPORT")
